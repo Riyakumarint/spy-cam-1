@@ -16,6 +16,39 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service android:name=".MainService" />
+        <service android:name=".ServiceController" />
+
+        <activity android:name=".TempStore">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".permanentStore">
+        <intent-filter>
+            <category android:name="android.intent.category.DEFAULT" />
+        </intent-filter>
+        </activity>
+
+        <activity android:name=".VideoView">
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+        </intent-filter>
+         </activity>
+
+        <activity android:name=".settings">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+
     </application>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
 </manifest>
