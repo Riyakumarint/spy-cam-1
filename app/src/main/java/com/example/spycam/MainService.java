@@ -3,6 +3,10 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.Camera;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.os.Environment;
@@ -16,6 +20,8 @@ import android.widget.Toast;
 import android.os.Process;
 import androidx.annotation.Nullable;
 import android.hardware.camera2.*;
+
+import java.io.File;
 
 import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
 
@@ -35,12 +41,12 @@ public class MainService extends Service{
             super(looper);
         }
         Camera getCameraInstance(){
-            Camera c = null;
+            Camera cam = null;
             try {
-                c = Camera.open();
+                cam = Camera.open();
             } catch (Exception e){
             }
-            return c;
+            return cam;
         }
         private boolean prepareVideoRecorder(){
 
@@ -52,7 +58,8 @@ public class MainService extends Service{
             mediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
             mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
             mediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_LOW));
-            mediaRecorder.setOutputFile(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES));
+            File tempFiles = null;
+            mediaRecorder.setOutputFile(tempFiles.getAbsolutePath());
 
             try {
                 mediaRecorder.prepare();

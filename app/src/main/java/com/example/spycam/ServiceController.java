@@ -5,6 +5,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.HandlerThread;
 import android.os.IBinder;
 import android.os.Looper;
@@ -18,6 +22,9 @@ import androidx.annotation.Nullable;
 public class ServiceController extends Service{
     private ServiceHandler serviceHandler;
     private BroadcastReceiver mReceiver;
+    private SensorManager mSensorManager;
+    private Sensor mLightSensor;
+    private float mLightQuantity;
 
 
     @Nullable
@@ -25,6 +32,7 @@ public class ServiceController extends Service{
     public IBinder onBind(Intent intent) {
         return null;
     }
+
 
     public static class ScreenReceiver extends BroadcastReceiver {
 
@@ -42,7 +50,7 @@ public class ServiceController extends Service{
         }
 
     private final class ServiceHandler extends Handler{
-        public ServiceHandler(Looper looper) {
+        ServiceHandler(Looper looper) {
             super(looper);
         }
 
@@ -74,6 +82,25 @@ public class ServiceController extends Service{
 
         mReceiver = new ScreenReceiver();
         registerReceiver(mReceiver, filter);
+
+        mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
+        Sensor mLightSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+        SensorEventListener listener = new SensorEventListener(){
+            @Override
+            public void onSensorChanged(SensorEvent event) {
+                mLightQuantity = event.values[0];
+            }
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+            }
+
+        };
+        mSensorManager.registerListener(
+                listener, mLightSensor, SensorManager.SENSOR_DELAY_UI);
+
+
     }
 
     public int onStartCommand(Intent intent, int flags, int startId) {
