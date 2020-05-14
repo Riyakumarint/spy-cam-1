@@ -16,17 +16,21 @@ import android.os.Process;
 import androidx.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
-public class MainService extends Service{
+public class MainService<testTemp> extends Service{
     private ServiceHandler serviceHandler;
     private Camera mCamera;
     private MediaRecorder mediaRecorder;
     final String dir = (Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/TempVid");
     File tempDirec = new File(dir);
-    if (!(tempDirec.exists())){
-        tempDirec.mkdirs();}
+
     public Uri NewFile(){
-        String file = dir+"count"+".mp4";
+        DateFormat df = new SimpleDateFormat("yyyy MM dd HH mm ss");
+        String count = df.format(Calendar.getInstance().getTime());
+        String file = dir+count+".mp4";
         File newfile = new File(file);
         try {
             newfile.createNewFile();
@@ -67,7 +71,7 @@ public class MainService extends Service{
         }
 
         //function to get instance
-        Camera getCameraInstance(){
+        public Camera getCameraInstance(){
             Camera cam = null;
             try {
                 cam = Camera.open();
@@ -108,14 +112,14 @@ public class MainService extends Service{
 
         public void handleMessage(Message msg) {
             try {
+                if(!tempDirec.exists()){
+                    tempDirec.mkdirs();
+                }
                 mediaRecorder.start();
-                mediaRecorder.stop();
-                releaseMediaRecorder();
-                mCamera.lock();
             } catch (Exception e) {
                 Thread.currentThread().interrupt();
             }
-            stopSelf(msg.arg1);
+
 
         }
 
@@ -124,6 +128,7 @@ public class MainService extends Service{
 
     public void onDestroy() {
         Toast.makeText(this, "service done", Toast.LENGTH_SHORT).show();
+        mediaRecorder.stop();
         releaseMediaRecorder();
         releaseCamera();
 
