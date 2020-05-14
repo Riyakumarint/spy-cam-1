@@ -22,9 +22,89 @@ import androidx.annotation.Nullable;
 public class ServiceController extends Service{
     private ServiceHandler serviceHandler;
     private BroadcastReceiver mReceiver;
-    private SensorManager mSensorManager;
     private Sensor mLightSensor;
     private float mLightQuantity;
+
+
+    public void onCreate() {
+        //thread handler
+
+        HandlerThread thread = new HandlerThread("ServiceStartArguments",
+                Process.THREAD_PRIORITY_BACKGROUND);
+        thread.start();
+        Looper serviceLooper = thread.getLooper();
+        serviceHandler = new ServiceHandler(serviceLooper);
+
+        //broadcast receiver for screen
+        IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
+        filter.addAction(Intent.ACTION_SCREEN_OFF);
+        filter.addAction(Intent.ACTION_USER_PRESENT);
+        mReceiver = new ScreenReceiver();
+        registerReceiver(mReceiver, filter);
+
+        //sensor manager
+        SensorManager mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        Sensor mLightSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+        Sensor mMotionSensor1= mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
+        Sensor mMotionSensor2= mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+
+        SensorEventListener listener3 = new SensorEventListener(){
+            @Override
+            public void onSensorChanged(SensorEvent event) {
+                float x1=event.values[0];
+                float y1=event.values[1];
+                float z1=event.values[2];
+                if(x1==0 && y1==0 && z1==0){ }
+                else if(1==1){ }
+            }
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) { }
+        };
+
+        SensorEventListener listener2 = new SensorEventListener(){
+            @Override
+            public void onSensorChanged(SensorEvent event) {
+                float x2=event.values[0];
+                float y2=event.values[1];
+                float z2=event.values[2];
+                if(x2==0 && y2==0 && z2==0){ }
+                else if(1==1){ }
+            }
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) { }
+        };
+
+        SensorEventListener listener1 = new SensorEventListener(){
+            @Override
+            public void onSensorChanged(SensorEvent event) {
+                mLightQuantity = event.values[0];
+                if(mLightQuantity<10){ }
+                else if(1==1){}
+            }
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) { }
+
+        };
+        mSensorManager.registerListener(
+                listener1, mLightSensor, SensorManager.SENSOR_DELAY_UI);
+        mSensorManager.registerListener(
+                listener2, mMotionSensor1, SensorManager.SENSOR_DELAY_UI);
+        mSensorManager.registerListener(
+                listener3, mMotionSensor2, SensorManager.SENSOR_DELAY_UI);
+
+
+    }
+
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show();
+
+        Message msg = serviceHandler.obtainMessage();
+        msg.arg1 = startId;
+        serviceHandler.sendMessage(msg);
+        return START_STICKY;
+    }
+
+
 
 
     @Nullable
@@ -48,7 +128,7 @@ public class ServiceController extends Service{
             }
 
         }
-
+        //keeping service alive.
     private final class ServiceHandler extends Handler{
         ServiceHandler(Looper looper) {
             super(looper);
@@ -66,51 +146,6 @@ public class ServiceController extends Service{
 
     }
 
-    public void onCreate() {
-
-        HandlerThread thread = new HandlerThread("ServiceStartArguments",
-                Process.THREAD_PRIORITY_BACKGROUND);
-        thread.start();
-
-        Looper serviceLooper = thread.getLooper();
-        serviceHandler = new ServiceHandler(serviceLooper);
-        IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
-
-        filter.addAction(Intent.ACTION_SCREEN_OFF);
-        filter.addAction(Intent.ACTION_USER_PRESENT);
-
-
-        mReceiver = new ScreenReceiver();
-        registerReceiver(mReceiver, filter);
-
-        mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
-        Sensor mLightSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
-        SensorEventListener listener = new SensorEventListener(){
-            @Override
-            public void onSensorChanged(SensorEvent event) {
-                mLightQuantity = event.values[0];
-            }
-
-            @Override
-            public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-            }
-
-        };
-        mSensorManager.registerListener(
-                listener, mLightSensor, SensorManager.SENSOR_DELAY_UI);
-
-
-    }
-
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show();
-
-        Message msg = serviceHandler.obtainMessage();
-        msg.arg1 = startId;
-        serviceHandler.sendMessage(msg);
-        return START_STICKY;
-    }
 
     public void onDestroy() {
         Toast.makeText(this, "service done", Toast.LENGTH_SHORT).show();

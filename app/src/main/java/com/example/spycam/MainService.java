@@ -36,10 +36,30 @@ public class MainService extends Service{
         return null;
     }
 
+    public void onCreate() {
+        //creating threads
+        HandlerThread thread = new HandlerThread("ServiceStartArguments",
+                Process.THREAD_PRIORITY_BACKGROUND);
+        thread.start();
+        Looper serviceLooper = thread.getLooper();
+        serviceHandler = new ServiceHandler(serviceLooper);
+    }
+
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show();
+
+        Message msg = serviceHandler.obtainMessage();
+        msg.arg1 = startId;
+        serviceHandler.sendMessage(msg);
+        return START_STICKY;
+    }
+
     private final class ServiceHandler extends Handler{
         public ServiceHandler(Looper looper) {
             super(looper);
         }
+
+        //function to get instance
         Camera getCameraInstance(){
             Camera cam = null;
             try {
@@ -48,8 +68,8 @@ public class MainService extends Service{
             }
             return cam;
         }
+        //preparing recorder
         private boolean prepareVideoRecorder(){
-
             mCamera = getCameraInstance();
             mediaRecorder = new MediaRecorder();
             mCamera.unlock();
@@ -94,24 +114,6 @@ public class MainService extends Service{
 
     }
 
-    public void onCreate() {
-
-        HandlerThread thread = new HandlerThread("ServiceStartArguments",
-                Process.THREAD_PRIORITY_BACKGROUND);
-        thread.start();
-
-        Looper serviceLooper = thread.getLooper();
-        serviceHandler = new ServiceHandler(serviceLooper);
-    }
-
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show();
-
-        Message msg = serviceHandler.obtainMessage();
-        msg.arg1 = startId;
-        serviceHandler.sendMessage(msg);
-        return START_STICKY;
-    }
 
     public void onDestroy() {
         Toast.makeText(this, "service done", Toast.LENGTH_SHORT).show();
