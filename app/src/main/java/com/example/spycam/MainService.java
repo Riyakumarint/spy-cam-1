@@ -1,12 +1,7 @@
 package com.example.spycam;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.hardware.Camera;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.os.Environment;
@@ -15,11 +10,9 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.widget.Toast;
 import android.os.Process;
 import androidx.annotation.Nullable;
-import android.hardware.camera2.*;
 
 import java.io.File;
 
