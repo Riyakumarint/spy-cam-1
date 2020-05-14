@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
+import android.net.Uri;
 import android.os.Environment;
 import android.os.HandlerThread;
 import android.os.IBinder;
@@ -13,15 +14,28 @@ import android.os.Message;
 import android.widget.Toast;
 import android.os.Process;
 import androidx.annotation.Nullable;
-
 import java.io.File;
-
-import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
+import java.io.IOException;
 
 public class MainService extends Service{
     private ServiceHandler serviceHandler;
     private Camera mCamera;
     private MediaRecorder mediaRecorder;
+    final String dir = (Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/TempVid");
+    File tempDirec = new File(dir);
+    if (!(tempDirec.exists())){
+        tempDirec.mkdirs();}
+    public Uri NewFile(){
+        String file = dir+"count"+".mp4";
+        File newfile = new File(file);
+        try {
+            newfile.createNewFile();
+        }
+        catch (IOException e)
+        { return  null;
+        }
+        return Uri.fromFile(newfile);
+    }
 
     @Nullable
     @Override
@@ -72,7 +86,7 @@ public class MainService extends Service{
             mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
             mediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_LOW));
             File tempFiles = null;
-            mediaRecorder.setOutputFile(tempFiles.getAbsolutePath());
+            mediaRecorder.setOutputFile(NewFile().toString());
 
             try {
                 mediaRecorder.prepare();
