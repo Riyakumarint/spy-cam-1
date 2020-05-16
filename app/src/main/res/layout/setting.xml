@@ -1,104 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/bgapps"
-    tools:context=".MainActivity">
+    tools:context=".settings">
+
+    <ImageButton
+        android:id="@+id/send_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:onClick="back_arrow"
+        android:background="none"
+        android:src="@drawable/ic_launcher_foreground" />
 
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:text="@string/settings"
+        android:textColor="#F4F3F3"
+        android:textSize="55sp" />
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:background="none">
 
 
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginRight="20dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:text="SETTINGS"
-            android:id="@+id/settings"
-            android:layout_centerHorizontal="true"
-            android:textColor="#F4F3F3"
-            android:textSize="60dp" />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="160dp"
-            android:text="Quality"
-            android:textSize="30dp" />
-
-        <SeekBar
-            android:id="@+id/seekVol1"
-            style="@style/Widget.AppCompat.SeekBar"
-            android:layout_width="300dp"
-            android:layout_height="match_parent"
-            android:layout_marginTop="210dp"
-            android:scrollbarSize="67dp" />
-
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="time"
-            android:layout_marginTop="230dp"
-            android:textSize="30dp" />
+            android:orientation="vertical">
 
 
-        <SeekBar
-            android:id="@+id/seekVol2"
-            android:layout_width="300dp"
-            android:layout_height="match_parent"
-            android:layout_marginTop="275dp"
-            android:scrollbarSize="67dp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Default:"
-            android:layout_marginTop="400dp"
-            android:textSize="30dp" />
-
-        <Switch
-            android:id="@+id/default_settings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="410dp"
-            android:switchMinWidth="56dp"
-            android:layout_marginLeft="100dp"
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginRight="20dp">
 
 
-            android:text=""
-            android:checked="true"
-            android:textOff="OFF"
-            android:textOn="ON"
-            />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="160dp"
+                    android:text="Quality"
+                    android:textSize="30sp" />
 
-        <Button
-            android:id="@+id/button_save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="SAVE CHANGES"
-            android:layout_marginTop="500dp"
-            android:textSize="30dp" />
+                <SeekBar
+                    android:id="@+id/seekquality"
+                    style="@style/Widget.AppCompat.SeekBar"
+                    android:layout_width="300dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="210dp"
+                    android:scrollbarSize="67dp"
+                    android:visibility="visible"
+                    tools:visibility="visible" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="230dp"
+                    android:text="time"
+                    android:textSize="30sp" />
 
 
+                <SeekBar
+                    android:id="@+id/seektime"
+                    android:layout_width="300dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="275dp"
+                    android:scrollbarSize="67dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="300dp"
+                    android:text="Motion Sencor:"
+                    android:textSize="30sp" />
+
+                <Switch
+                    android:id="@+id/motionSencor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="200dp"
+                    android:layout_marginTop="305dp"
+                    android:checked="true"
+                    android:onClick="switchToDefault"
+                    android:switchMinWidth="56dp"
+                    android:text=""
+                    android:textOff="OFF"
+                    android:textOn="ON" />
 
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="400dp"
+                    android:text="Default:"
+                    android:textSize="30sp" />
 
-    </RelativeLayout>
+                <Switch
+                    android:id="@+id/default_settings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="100dp"
+                    android:layout_marginTop="410dp"
+                    android:checked="true"
+                    android:onClick="switchToDefault"
+                    android:switchMinWidth="56dp"
+                    android:text=""
+                    android:textOff="OFF"
+                    android:textOn="ON" />
 
-    </LinearLayout>
-</ScrollView>
 
+                <Button
+                    android:id="@+id/button_save"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="500dp"
+                    android:onClick="buttonSave"
+                    android:text="SAVE CHANGES"
+                    android:textSize="30sp" />
 
+            </RelativeLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>
