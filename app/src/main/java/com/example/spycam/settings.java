@@ -7,6 +7,6 @@ public class settings extends Activity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.temp_store);
+        setContentView(R.layout.setting);
     }
 }
