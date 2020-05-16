@@ -1,6 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/bgapps"
+    tools:context=".MainActivity">
 
-</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginRight="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="SETTINGS"
+            android:id="@+id/settings"
+            android:layout_centerHorizontal="true"
+            android:textColor="#F4F3F3"
+            android:textSize="60dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="160dp"
+            android:text="Quality"
+            android:textSize="30dp" />
+
+        <SeekBar
+            android:id="@+id/seekVol1"
+            style="@style/Widget.AppCompat.SeekBar"
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="210dp"
+            android:scrollbarSize="67dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="time"
+            android:layout_marginTop="230dp"
+            android:textSize="30dp" />
+
+
+        <SeekBar
+            android:id="@+id/seekVol2"
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="275dp"
+            android:scrollbarSize="67dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Default:"
+            android:layout_marginTop="400dp"
+            android:textSize="30dp" />
+
+        <Switch
+            android:id="@+id/default_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="410dp"
+            android:switchMinWidth="56dp"
+            android:layout_marginLeft="100dp"
+
+
+            android:text=""
+            android:checked="true"
+            android:textOff="OFF"
+            android:textOn="ON"
+            />
+
+        <Button
+            android:id="@+id/button_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SAVE CHANGES"
+            android:layout_marginTop="500dp"
+            android:textSize="30dp" />
+
+
+
+
+
+    </RelativeLayout>
+
+    </LinearLayout>
+</ScrollView>
+
+
